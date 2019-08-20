@@ -6,7 +6,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Kbg.NppPluginNET.PluginInfrastructure;
+using PmlVersionControl;
 
+/// <summary>
+/// This plugin is intended to developed for PML file version controlling
+/// Concept of this development is..having commit and versions button
+/// Commit button will save current works to a specified directory with committed message into it and time stamp
+/// versions button provide a window to show all versions of this file previously committed
+/// User can select any version to open
+/// </summary>
 namespace Kbg.NppPluginNET
 {
     class Main
@@ -16,8 +24,8 @@ namespace Kbg.NppPluginNET
         static bool someSetting = false;
         static frmMyDlg frmMyDlg = null;
         static int idMyDlg = -1;
-        static Bitmap tbBmp = Properties.Resources.star;
-        static Bitmap tbBmp_tbTab = Properties.Resources.star_bmp;
+        static Bitmap tbBmp = PmlVersionControl.Properties.Resources.star;
+        static Bitmap tbBmp_tbTab = PmlVersionControl.Properties.Resources.star_bmp;
         static Icon tbIcon = null;
 
         public static void OnNotification(ScNotification notification)
@@ -41,8 +49,30 @@ namespace Kbg.NppPluginNET
             iniFilePath = Path.Combine(iniFilePath, PluginName + ".ini");
             someSetting = (Win32.GetPrivateProfileInt("SomeSection", "SomeKey", 0, iniFilePath) != 0);
 
-            PluginBase.SetCommand(0, "MyMenuCommand", myMenuFunction, new ShortcutKey(false, false, false, Keys.None));
-            PluginBase.SetCommand(1, "MyDockableDialog", myDockableDialog); idMyDlg = 1;
+            PluginBase.SetCommand(0, "CommitPMLCode", pmlCommit, new ShortcutKey(false, false, false, Keys.None));
+            PluginBase.SetCommand(1, "Available Versions", availableVersions); idMyDlg = 1;
+        }
+
+        private static void availableVersions()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void pmlCommit()
+        {
+
+
+            //Open Commit form to enter commit message
+            CommitWindow commitFrm = new CommitWindow();
+            commitFrm.Show();
+
+            //Save the current file
+
+            //Take file path
+
+            //Copy the file to new directory and rename
+
+            //Open the renamed file and add committed message save & close
         }
 
         internal static void SetToolBarIcon()
@@ -61,46 +91,49 @@ namespace Kbg.NppPluginNET
         }
 
 
-        internal static void myMenuFunction()
-        {
-            MessageBox.Show("Hello N++!");
-        }
 
-        internal static void myDockableDialog()
-        {
-            if (frmMyDlg == null)
-            {
-                frmMyDlg = new frmMyDlg();
 
-                using (Bitmap newBmp = new Bitmap(16, 16))
-                {
-                    Graphics g = Graphics.FromImage(newBmp);
-                    ColorMap[] colorMap = new ColorMap[1];
-                    colorMap[0] = new ColorMap();
-                    colorMap[0].OldColor = Color.Fuchsia;
-                    colorMap[0].NewColor = Color.FromKnownColor(KnownColor.ButtonFace);
-                    ImageAttributes attr = new ImageAttributes();
-                    attr.SetRemapTable(colorMap);
-                    g.DrawImage(tbBmp_tbTab, new Rectangle(0, 0, 16, 16), 0, 0, 16, 16, GraphicsUnit.Pixel, attr);
-                    tbIcon = Icon.FromHandle(newBmp.GetHicon());
-                }
 
-                NppTbData _nppTbData = new NppTbData();
-                _nppTbData.hClient = frmMyDlg.Handle;
-                _nppTbData.pszName = "My dockable dialog";
-                _nppTbData.dlgID = idMyDlg;
-                _nppTbData.uMask = NppTbMsg.DWS_DF_CONT_RIGHT | NppTbMsg.DWS_ICONTAB | NppTbMsg.DWS_ICONBAR;
-                _nppTbData.hIconTab = (uint)tbIcon.Handle;
-                _nppTbData.pszModuleName = PluginName;
-                IntPtr _ptrNppTbData = Marshal.AllocHGlobal(Marshal.SizeOf(_nppTbData));
-                Marshal.StructureToPtr(_nppTbData, _ptrNppTbData, false);
+        //internal static void myMenuFunction()
+        //{
+        //    MessageBox.Show("Hello N++!");
+        //}
 
-                Win32.SendMessage(PluginBase.nppData._nppHandle, (uint) NppMsg.NPPM_DMMREGASDCKDLG, 0, _ptrNppTbData);
-            }
-            else
-            {
-                Win32.SendMessage(PluginBase.nppData._nppHandle, (uint) NppMsg.NPPM_DMMSHOW, 0, frmMyDlg.Handle);
-            }
-        }
+        //internal static void myDockableDialog()
+        //{
+        //    if (frmMyDlg == null)
+        //    {
+        //        frmMyDlg = new frmMyDlg();
+
+        //        using (Bitmap newBmp = new Bitmap(16, 16))
+        //        {
+        //            Graphics g = Graphics.FromImage(newBmp);
+        //            ColorMap[] colorMap = new ColorMap[1];
+        //            colorMap[0] = new ColorMap();
+        //            colorMap[0].OldColor = Color.Fuchsia;
+        //            colorMap[0].NewColor = Color.FromKnownColor(KnownColor.ButtonFace);
+        //            ImageAttributes attr = new ImageAttributes();
+        //            attr.SetRemapTable(colorMap);
+        //            g.DrawImage(tbBmp_tbTab, new Rectangle(0, 0, 16, 16), 0, 0, 16, 16, GraphicsUnit.Pixel, attr);
+        //            tbIcon = Icon.FromHandle(newBmp.GetHicon());
+        //        }
+
+        //        NppTbData _nppTbData = new NppTbData();
+        //        _nppTbData.hClient = frmMyDlg.Handle;
+        //        _nppTbData.pszName = "My dockable dialog";
+        //        _nppTbData.dlgID = idMyDlg;
+        //        _nppTbData.uMask = NppTbMsg.DWS_DF_CONT_RIGHT | NppTbMsg.DWS_ICONTAB | NppTbMsg.DWS_ICONBAR;
+        //        _nppTbData.hIconTab = (uint)tbIcon.Handle;
+        //        _nppTbData.pszModuleName = PluginName;
+        //        IntPtr _ptrNppTbData = Marshal.AllocHGlobal(Marshal.SizeOf(_nppTbData));
+        //        Marshal.StructureToPtr(_nppTbData, _ptrNppTbData, false);
+
+        //        Win32.SendMessage(PluginBase.nppData._nppHandle, (uint) NppMsg.NPPM_DMMREGASDCKDLG, 0, _ptrNppTbData);
+        //    }
+        //    else
+        //    {
+        //        Win32.SendMessage(PluginBase.nppData._nppHandle, (uint) NppMsg.NPPM_DMMSHOW, 0, frmMyDlg.Handle);
+        //    }
+        //}
     }
 }

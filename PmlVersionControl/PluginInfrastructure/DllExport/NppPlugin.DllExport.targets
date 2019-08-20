@@ -37,7 +37,7 @@
         ContinueOnError="false" /> 
     <Copy 
         SourceFiles="$(TargetPath)" 
-        DestinationFolder="$(ProgramW6432)\Notepad++\plugins\" 
+        DestinationFolder="$(ProgramW6432)\Notepad++\plugins\PmlVersionControl" 
         Condition="Exists('$(ProgramW6432)\Notepad++\plugins\') AND '$(Platform)'=='x64'"
         ContinueOnError="false" />
   </Target>

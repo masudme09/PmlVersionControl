@@ -1,6 +1,8 @@
 ﻿// NPP plugin platform for .Net v0.94.00 by Kasper B. Graversen etc.
 using System;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Forms;
 using NppPluginNET.PluginInfrastructure;
 
 namespace Kbg.NppPluginNET.PluginInfrastructure
@@ -37,10 +39,40 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
 			return path.ToString();
 		}
 
-		/// <summary>
-		/// Gets the path of the current document.
-		/// </summary>
-		public unsafe string GetFilePath(int bufferId)
+        /// <summary>
+        /// This method save the currentfile file
+        /// </summary>
+        public void SaveCurrentFile()
+        {
+            string sessionPath =this.GetCurrentFilePath();
+            Win32.SendMessage(PluginBase.nppData._nppHandle,(uint) NppMsg.NPPM_SAVEFILE, 0, sessionPath);
+            //if (!string.IsNullOrEmpty(sessionPath))
+            //    MessageBox.Show(sessionPath, "Saved Session File :", MessageBoxButtons.OK);
+        }
+
+        /// <summary>
+        /// This method save the currentfile file to given Path
+        /// </summary>
+        public void SaveCurrentFile(string filePath)
+        {
+            Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_SAVECURRENTFILEAS, 0, filePath);
+           
+        }
+
+        /// <summary>
+        /// This method close the currentfile file to given Path
+        /// </summary>
+        public void CloseCurrentFile(string filePath)
+        {
+            //Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_MENUCOMMAND, Unused, NppMenuCmd.IDM_FILE_NEW);
+            Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_MENUCOMMAND, 0, NppMenuCmd.IDM_FILE_CLOSE);
+
+        }
+
+        /// <summary>
+        /// Gets the path of the current document.
+        /// </summary>
+        public unsafe string GetFilePath(int bufferId)
 		{
 			var path = new StringBuilder(2000);
 			Win32.SendMessage(PluginBase.nppData._nppHandle, (uint) NppMsg.NPPM_GETFULLPATHFROMBUFFERID, bufferId, path);
