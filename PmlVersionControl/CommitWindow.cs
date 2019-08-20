@@ -8,7 +8,10 @@ namespace PmlVersionControl
 {
     public partial class CommitWindow : Form
     {
-        public string pushDirectory = @"E:\Developments\Notepad++ Plugin\Test Directory";
+        public string pushDirectory = @"E:\Developments\Notepad++ Plugin\Macro_Vault\MACRO_ARCHIVE";
+        public string rootDirectory = @"E:\Developments\Notepad++ Plugin\Macro_Vault";
+        public string codeDirectory = @"E:\Developments\Notepad++ Plugin\Macro_Vault\MACRO_LEAP_E3D";
+        public string finalDirectoryForEncryption = @"E:\Developments\Notepad++ Plugin\Macro_Vault\MACRO_LEAP_E3D_ENCRY";
         public CommitWindow()
         {
             InitializeComponent();
@@ -44,7 +47,28 @@ namespace PmlVersionControl
                                 
                 MessageBox.Show("Successfully Committed");
 
-                notepadPPGateway.CloseCurrentFile(pushedFileDirectory);
+                //Closing the save as file and opening the original file
+                notepadPPGateway.CloseCurrentFile();
+                notepadPPGateway.openFile(path);
+
+
+                if(chkFinal.Checked==true)
+                {
+                    //Check file path contains root directory of PML files
+                    if(path.Contains(rootDirectory))
+                    {
+
+                        string strucDirectory = (path.Replace(codeDirectory,"")).Replace(currentFileName,"");
+                        string newDirectory = finalDirectoryForEncryption + strucDirectory;
+                        Directory.CreateDirectory(newDirectory);
+                        File.Copy(path, newDirectory+currentFileName);
+
+                    }
+                }
+
+
+
+
                 //Close the commit form and dispose
                 this.Close();
                 this.Dispose();

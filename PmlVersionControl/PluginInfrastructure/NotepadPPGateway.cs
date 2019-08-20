@@ -59,10 +59,22 @@ namespace Kbg.NppPluginNET.PluginInfrastructure
            
         }
 
+
         /// <summary>
-        /// This method close the currentfile file to given Path
+        /// This method open file with path 
         /// </summary>
-        public void CloseCurrentFile(string filePath)
+        public void openFile(string path)
+        {
+            //Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_MENUCOMMAND, Unused, NppMenuCmd.IDM_FILE_NEW);
+            //Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_MENUCOMMAND, 0, NppMenuCmd.IDM_FILE_OPEN);
+            Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_DOOPEN, 0, path);
+
+        }
+
+        /// <summary>
+        /// This method close the currentfile file 
+        /// </summary>
+        public void CloseCurrentFile()
         {
             //Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_MENUCOMMAND, Unused, NppMenuCmd.IDM_FILE_NEW);
             Win32.SendMessage(PluginBase.nppData._nppHandle, (uint)NppMsg.NPPM_MENUCOMMAND, 0, NppMenuCmd.IDM_FILE_CLOSE);
