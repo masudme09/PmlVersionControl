@@ -3,21 +3,254 @@ using System.Windows.Forms;
 using Kbg.NppPluginNET.PluginInfrastructure;
 using System.IO;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace PmlVersionControl
 {
     public partial class CommitWindow : Form
     {
-        public string pushDirectory = @"E:\Developments\Notepad++ Plugin\Macro_Vault\MACRO_ARCHIVE";
-        public string rootDirectory = @"E:\Developments\Notepad++ Plugin\Macro_Vault";
-        public string codeDirectory = @"E:\Developments\Notepad++ Plugin\Macro_Vault\MACRO_LEAP_E3D";
-        public string finalDirectoryForEncryption = @"E:\Developments\Notepad++ Plugin\Macro_Vault\MACRO_LEAP_E3D_ENCRY";
+        public static string pushDirectory ="";
+        public static string rootDirectory ="";
+        public static string codeDirectory = "";
+        public static string finalDirectoryForEncryption = "";
+             
         public CommitWindow()
         {
             InitializeComponent();
             this.CenterToParent();
+
+            //getting installation directory to save xml
+            //string installationPath = AppDomain.CurrentDomain.BaseDirectory;
+            string installationPath = @"C:\Program Files\Notepad++\plugins\PmlVersionControl";
+            Directory.CreateDirectory(installationPath +"\\ConfigXml");
+            string xmlPath = installationPath + "\\ConfigXml\\configXml.xml";
+            createAndUpdateXmlForPathSettings(xmlPath);
+
+            //Now need to generate an XML there if not already there 
+
+            //prompt to insert directories and save those to xml
+
+            //If already there then read that xml file and load paths
+
         }
 
+        /// <summary>
+        /// This method will create xml to installation directory
+        /// Read the xml if already there to get paths
+        /// If xml is newly created then promps to get path values
+        /// if all path values are not found then also prompts to get that
+        /// </summary>
+        public void createAndUpdateXmlForPathSettings(string xmlPath)
+        {
+            XmlDocument doc = new XmlDocument();
+            
+
+            if (File.Exists(xmlPath))
+            {
+                doc.Load(xmlPath);
+                XmlNode rootNode = doc.FirstChild.NextSibling;
+
+                XmlNodeList pushDirectory = doc.GetElementsByTagName("pushDirectory");
+                foreach(XmlNode nd in pushDirectory)
+                {
+                    CommitWindow.pushDirectory = nd.InnerText;
+                }
+
+                if(CommitWindow.pushDirectory=="")
+                {
+                    PathSettings pushPath = new PathSettings();
+                    pushPath.Text = "Set Commit Directory";
+                    pushPath.lblSettings.Text = "Set Commit Directory";
+                    pushPath.ShowDialog();
+                    if (!(CommitWindow.pushDirectory == ""))
+                    {
+                        writeTagXML(doc.DocumentElement, doc, xmlPath, "pushDirectory", CommitWindow.pushDirectory);
+                    }
+                }
+
+                XmlNodeList rootDirectory = doc.GetElementsByTagName("rootDirectory");
+                foreach (XmlNode nd in rootDirectory)
+                {
+                    CommitWindow.rootDirectory = nd.InnerText;
+                }
+
+                if (CommitWindow.rootDirectory == "")
+                {
+                    PathSettings rootPath = new PathSettings();
+                    rootPath.Text = "Set Root Directory";
+                    rootPath.lblSettings.Text = "Set Root Directory";
+                    rootPath.ShowDialog();
+                    if (!(CommitWindow.rootDirectory == ""))
+                    {
+                        writeTagXML(doc.DocumentElement, doc, xmlPath, "rootDirectory", CommitWindow.rootDirectory);
+                    }
+                   
+
+                }
+
+
+
+                XmlNodeList codeDirectory = doc.GetElementsByTagName("codeDirectory");
+                foreach (XmlNode nd in codeDirectory)
+                {
+                    CommitWindow.codeDirectory = nd.InnerText;
+                }
+
+
+                if (CommitWindow.codeDirectory == "")
+                {
+                    PathSettings codePath = new PathSettings();
+                    codePath.Text = "Set Code Directory";
+                    codePath.lblSettings.Text = "Set Code Directory";
+                    codePath.ShowDialog();
+
+                    if (!(CommitWindow.codeDirectory == "")) //user may close the enter directory form..and then it will return empty directory
+                    {
+                        writeTagXML(doc.DocumentElement, doc, xmlPath, "codeDirectory", CommitWindow.codeDirectory);
+                    }
+                   
+                   
+                }
+
+                XmlNodeList finalDirectoryForEncryption = doc.GetElementsByTagName("finalDirectoryForEncryption");
+                foreach (XmlNode nd in finalDirectoryForEncryption)
+                {
+                    CommitWindow.finalDirectoryForEncryption = nd.InnerText;
+                }
+
+                if (CommitWindow.finalDirectoryForEncryption == "")
+                {
+                    PathSettings Encryption = new PathSettings();
+                    Encryption.Text = "Set Encryption Directory";
+                    Encryption.lblSettings.Text = "Set Encryption Directory";
+                    Encryption.ShowDialog();
+
+                    if (!(CommitWindow.finalDirectoryForEncryption == "")) //user may close the enter directory form..and then it will return empty directory
+                    {
+                        writeTagXML(doc.DocumentElement, doc, xmlPath, "finalDirectoryForEncryption", CommitWindow.finalDirectoryForEncryption);
+                    }
+                   
+                }
+
+            }
+            else
+            {
+                //(1) the xml declaration is recommended, but not mandatory
+                XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+                XmlElement root = doc.DocumentElement;
+                doc.InsertBefore(xmlDeclaration, root);
+                XmlElement rootNode = doc.CreateElement(string.Empty, "root", string.Empty);
+                doc.AppendChild(rootNode);
+                //doc.Save(xmlPath);
+
+                if (CommitWindow.pushDirectory == "")
+                {
+                    PathSettings pushPath = new PathSettings();
+                    pushPath.Text = "Set Commit Directory";
+                    pushPath.lblSettings.Text = "Set Commit Directory";
+                    pushPath.ShowDialog();
+                    if (!(CommitWindow.pushDirectory == "")) //user may close the enter directory form..and then it will return empty directory
+                    {
+                        writeTagXML(rootNode, doc, xmlPath, "pushDirectory", CommitWindow.pushDirectory);
+                    }
+                   
+
+                }
+
+                if (CommitWindow.rootDirectory == "")
+                {
+                    PathSettings rootPath = new PathSettings();
+                    rootPath.Text = "Set Root Directory";
+                    rootPath.lblSettings.Text = "Set Root Directory";
+                    rootPath.ShowDialog();
+                    if (!(CommitWindow.rootDirectory == "")) //user may close the enter directory form..and then it will return empty directory
+                    {
+                        writeTagXML(rootNode, doc, xmlPath, "rootDirectory", CommitWindow.rootDirectory);
+
+                    }
+
+
+                }
+
+                if (CommitWindow.codeDirectory == "")
+                {
+                    PathSettings codePath = new PathSettings();
+                    codePath.Text = "Set Code Directory";
+                    codePath.lblSettings.Text = "Set Code Directory";
+                    codePath.ShowDialog();
+
+                    if (!(CommitWindow.codeDirectory == "")) //user may close the enter directory form..and then it will return empty directory
+                    {
+                        writeTagXML(rootNode, doc, xmlPath, "codeDirectory", CommitWindow.codeDirectory);
+
+                    }
+                   
+
+                }
+
+                if (CommitWindow.finalDirectoryForEncryption == "")
+                {
+                    PathSettings Encryption = new PathSettings();
+                    Encryption.Text = "Set Encryption Directory";
+                    Encryption.lblSettings.Text = "Set Encryption Directory";
+                    Encryption.ShowDialog();
+
+                    if (!(CommitWindow.finalDirectoryForEncryption == "")) //user may close the enter directory form..and then it will return empty directory
+                    {
+                        writeTagXML(rootNode, doc, xmlPath, "finalDirectoryForEncryption", CommitWindow.finalDirectoryForEncryption);
+
+                    }
+
+                   
+                }
+
+            }
+
+        }
+               
+        public void writeTagXML(XmlElement elem, XmlDocument doc, string savePath, string TagName, string TagValue )
+        {
+            //Create xml document for writing
+            if (!File.Exists(savePath))
+            {
+                
+                XmlElement newNode =  doc.CreateElement(string.Empty, TagName, string.Empty);
+                XmlText text1 = doc.CreateTextNode(TagValue);
+                newNode.AppendChild(text1);
+                //newNode.Value = TagValue;
+                elem.AppendChild(newNode);
+                //newNode.Value = TagValue;
+                try
+                {
+                    doc.Save(savePath);
+                
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+            }
+            else
+            {
+                XmlElement newNode = doc.CreateElement(string.Empty, TagName, string.Empty);
+                XmlText text1 = doc.CreateTextNode(TagValue);
+                newNode.AppendChild(text1);
+                //newNode.Value = TagValue;
+                elem.AppendChild(newNode);
+                //newNode.Value = TagValue;
+                try
+                {
+                    doc.Save(savePath);
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+            }
+        }
+            
         private void btnCommit_Click(object sender, EventArgs e)
         {
             //Take the commit message
@@ -37,20 +270,25 @@ namespace PmlVersionControl
                 string pushedFileName = now.ToString() + "_" + userName + "_" + currentFileName;
                 pushedFileName = pushedFileName.Replace(":", "_");
                 //Create directory for the original file
-                Directory.CreateDirectory(pushDirectory + "\\" + currentFileName);
-                string pushedFileDirectory = pushDirectory + "\\" + currentFileName + "\\" + pushedFileName;
-                notepadPPGateway.SaveCurrentFile(pushedFileDirectory);
+                if (Directory.Exists(pushDirectory) && !(pushDirectory=="") && Directory.Exists(rootDirectory) && !(rootDirectory=="")
+                    && Directory.Exists(codeDirectory) && !(codeDirectory == "") && Directory.Exists(finalDirectoryForEncryption) && !(finalDirectoryForEncryption == ""))
+                {
+                    Directory.CreateDirectory(pushDirectory + "\\" + currentFileName);
+                    string pushedFileDirectory = pushDirectory + "\\" + currentFileName + "\\" + pushedFileName;
 
-                //Open the file from remote directory and write commit message on top of it as comment and save
+                    notepadPPGateway.SaveCurrentFile(pushedFileDirectory);
 
-                AddCommitMessageToFileTop(commitMessage, pushedFileDirectory);
-                                
-                MessageBox.Show("Successfully Committed");
+                    //Open the file from remote directory and write commit message on top of it as comment and save
 
-                //Closing the save as file and opening the original file
-                notepadPPGateway.CloseCurrentFile();
-                notepadPPGateway.openFile(path);
+                    AddCommitMessageToFileTop(commitMessage, pushedFileDirectory);
 
+                    MessageBox.Show("Successfully Committed");
+
+                    //Closing the save as file and opening the original file
+                    notepadPPGateway.CloseCurrentFile();
+                    notepadPPGateway.openFile(path);
+
+               
 
                 if(chkFinal.Checked==true)
                 {
@@ -66,7 +304,11 @@ namespace PmlVersionControl
                     }
                 }
 
-
+                }
+                else
+                {
+                    MessageBox.Show("Invalid Directory");
+                }
 
 
                 //Close the commit form and dispose
