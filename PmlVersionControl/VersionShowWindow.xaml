@@ -1,0 +1,262 @@
+﻿<Window x:Class="PmlVersionControl.VersionShowWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PmlVersionControl"
+             mc:Ignorable="d" d:DesignWidth="600" 
+      Title="" Width="600" Height="492" MinWidth="600" MinHeight="500" WindowStartupLocation="CenterScreen" >
+    <Window.Resources>
+
+    </Window.Resources>
+    <Window.Background>
+        <SolidColorBrush Color="#FF41B252"/>
+    </Window.Background>
+
+    <Grid Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".11*"/>
+            <RowDefinition Height=".08*"/>
+            <RowDefinition Height=".08*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height=".15*"/>
+            <RowDefinition Height=".1*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Available Versions" Foreground="#FF4B4B4A" 
+               Margin="0,0,0,0" FontSize="22px" FontWeight="Bold" Name="lblAvailableVersion" Grid.ColumnSpan="2"/>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="5" Name="countLabel" Content="Count:" Foreground="#FF494949" FontSize="14px"
+               HorizontalAlignment="Right" Margin="0,0,0,0" FontWeight="Bold"/>
+            <Label Grid.Column="6" x:Name="countNumber" Content="0" HorizontalAlignment="Left"
+                   Margin="5,0,0,0" Foreground="#FF3E3C3C" FontSize="14px"/>
+
+        </Grid>
+        <Grid Grid.Row="2"  Background="AliceBlue" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="File Name" Grid.Column="0" FontSize="12px" Foreground="#FF484848" 
+                   HorizontalAlignment="Center" FontWeight="Bold"/>
+            <Label Content="Modified Date" Grid.Column="1" FontSize="12px" Foreground="#FF484848" 
+                   HorizontalAlignment="Center" FontWeight="Bold"/>
+            <Label Content="Modified By" Grid.Column="2" FontSize="12px" Foreground="#FF484848" 
+                   HorizontalAlignment="Center" FontWeight="Bold"/>
+            <Label Content="Commit Message" Grid.Column="3" FontSize="12px" Foreground="#FF484848" 
+                   HorizontalAlignment="Center" FontWeight="Bold"/>
+
+        </Grid>
+        <Grid x:Name="fileInfoLabels" Grid.Row="3" Background="#FFEDFAF4" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+               
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"  />
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <!--File Names Grid-->
+            <Border x:Name="fileBorder_1" Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity=".05" Background="#FF41B252"/>
+            <Label  Grid.Row="0" Grid.Column="0"  Name="lblfileName_1"  HorizontalAlignment="Center" MouseDown="LblfileName_1_MouseDown"/>
+            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="1" Grid.Column="0"  Name="lblfileName_2" HorizontalAlignment="Center"/>
+            <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="2" Grid.Column="0"  Name="lblfileName_3" HorizontalAlignment="Center"/>
+            <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="3" Grid.Column="0"  Name="lblfileName_4" HorizontalAlignment="Center"/>
+            <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="4" Grid.Column="0"  Name="lblfileName_5" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="5" Grid.Column="0"  Name="lblfileName_6" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="6" Grid.Column="0"  Name="lblfileName_7" HorizontalAlignment="Center"/>
+
+
+            <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="7" Grid.Column="0"  Name="lblfileName_8" HorizontalAlignment="Center"/>
+
+
+            <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="8" Grid.Column="0"  Name="lblfileName_9" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="9" Grid.Column="0"  Name="lblfileName_10" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="10" Grid.Column="0"  Name="lblfileName_11" HorizontalAlignment="Center"/>
+
+
+
+
+
+            <!--Modified Date Grid-->
+
+            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="0" Grid.Column="1"  Name="lblfileDate_1" HorizontalAlignment="Center"/>
+
+
+            <Border Grid.Row="1" Grid.Column="1"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="1" Grid.Column="1"  Name="lblfileDate_2" HorizontalAlignment="Center"/>
+
+
+            <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="2" Grid.Column="1"  Name="lblfileDate_3" HorizontalAlignment="Center"/>
+
+
+            <Border Grid.Row="3" Grid.Column="1"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="3" Grid.Column="1"  Name="lblfileDate_4" HorizontalAlignment="Center"/>
+
+
+            <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="4" Grid.Column="1"  Name="lblfileDate_5" HorizontalAlignment="Center"/>
+
+
+            <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="5" Grid.Column="1"  Name="lblfileDate_6" HorizontalAlignment="Center"/>
+
+
+            <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="6" Grid.Column="1"  Name="lblfileDate_7" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="7" Grid.Column="1"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="7" Grid.Column="1"  Name="lblfileDate_8" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="8" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="8" Grid.Column="1"  Name="lblfileDate_9" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="9" Grid.Column="1"  Name="lblfileDate_10" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="10" Grid.Column="1"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="10" Grid.Column="1"  Name="lblfileDate_11" HorizontalAlignment="Center"/>
+
+
+
+            <!--Modified By Grid-->
+            <Border  Grid.Row="0" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="0" Grid.Column="2"  Name="lblModifiedBy_1" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="1" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="1" Grid.Column="2"  Name="lblModifiedBy_2" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="2" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="2" Grid.Column="2"  Name="lblModifiedBy_3" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="3" Grid.Column="2"   BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="3" Grid.Column="2"  Name="lblModifiedBy_4" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="4" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="4" Grid.Column="2"  Name="lblModifiedBy_5" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="5" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="5" Grid.Column="2"  Name="lblModifiedBy_6" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="6" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="6" Grid.Column="2"  Name="lblModifiedBy_7" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="7" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="7" Grid.Column="2"  Name="lblModifiedBy_8" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="8" Grid.Column="2"   BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
+            <Label Grid.Row="8" Grid.Column="2"  Name="lblModifiedBy_9" HorizontalAlignment="Center"/>
+
+            <Border  Grid.Row="9" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="9" Grid.Column="2"  Name="lblModifiedBy_10" HorizontalAlignment="Center"/>
+
+            <Border Grid.Row="10" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <Label Grid.Row="10" Grid.Column="2"  Name="lblModifiedBy_11" HorizontalAlignment="Center"/>
+
+
+
+            <!--Commit Message Grid-->
+            <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="0" Grid.Column="3"  Name="lblCommitMessage_1"
+                         BorderBrush="#00000000" Background="#FFE4F6EC" IsReadOnly="True"/>
+
+            <Border Grid.Row="1" Grid.Column="3"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="1" Grid.Column="3"  Name="lblCommitMessage_2"
+                         BorderBrush="#00000000" Background="#FFEDFAF4" IsReadOnly="True"/>
+
+            <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="2" Grid.Column="3"  Name="lblCommitMessage_3"
+                         BorderBrush="#00000000" Background="#FFE2EEE8" IsReadOnly="True"/>
+
+            <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="3" Grid.Column="3"  Name="lblCommitMessage_4"
+                         BorderBrush="#00000000" Background="#FFEDFAF4" IsReadOnly="True"/>
+
+            <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="4" Grid.Column="3"  Name="lblCommitMessage_5"
+                         BorderBrush="#00000000" Background="#FFE2EEE8" IsReadOnly="True"/>
+
+            <Border Grid.Row="5" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="5" Grid.Column="3"  Name="lblCommitMessage_6"
+                         BorderBrush="#00000000" Background="#FFEDFAF4" IsReadOnly="True"/>
+
+            <Border Grid.Row="6" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="6" Grid.Column="3"  Name="lblCommitMessage_7"
+                         BorderBrush="#00000000" Background="#FFE2EEE8" IsReadOnly="True"/>
+
+            <Border Grid.Row="7" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="7" Grid.Column="3"  Name="lblCommitMessage_8"
+                         BorderBrush="#00000000" Background="#FFEDFAF4" IsReadOnly="True"/>
+
+            <Border Grid.Row="8" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="8" Grid.Column="3"  Name="lblCommitMessage_9"
+                         BorderBrush="#00000000" Background="#FFE2EEE8" IsReadOnly="True"/>
+
+            <Border Grid.Row="9" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="9" Grid.Column="3"  Name="lblCommitMessage_10"  HorizontalAlignment="Center"
+                         BorderBrush="#FFF0F0F0" Background="#FFF0F0F0"/>
+
+            <Border Grid.Row="10" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
+            <RichTextBox Grid.Row="10" Grid.Column="3"  Name="lblCommitMessage_11"
+                         BorderBrush="#00000000" Background="#FFEDFAF4" IsReadOnly="True"/>
+
+        </Grid>
+
+        <Grid Grid.Row="4" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnRight" Content="Next" Grid.Column="1" Background="#FFCFE1F0"
+                    FontWeight="Bold" Foreground="#FF484A4C" Margin="10,0,0,0" FontSize="20px"/>
+            <Button x:Name="btnLeft" Grid.Column="0" Content="Previous" Background="#FFCFE1F0"
+                    FontWeight="Bold" Foreground="#FF484A4C" Margin="0,0,10,0" FontSize="20px"/>
+
+        </Grid>
+        <Label Grid.Row="5" Grid.Column="1" Content="Powered By BJIT" FontSize="15px" FontStyle="Italic"
+               HorizontalAlignment="Stretch" HorizontalContentAlignment="Right" Foreground="#FF484A4C" />
+    </Grid>
+</Window>

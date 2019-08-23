@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PathSettings));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblSettings = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
@@ -73,6 +74,7 @@
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblSettings);
             this.Controls.Add(this.textBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PathSettings";

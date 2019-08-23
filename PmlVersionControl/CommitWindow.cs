@@ -20,13 +20,20 @@ namespace PmlVersionControl
             InitializeComponent();
             this.CenterToParent();
 
-            //getting installation directory to save xml
-            //string installationPath = AppDomain.CurrentDomain.BaseDirectory;
-            string installationPath = @"C:\Program Files\Notepad++\plugins\PmlVersionControl";
-            Directory.CreateDirectory(installationPath +"\\ConfigXml");
-            string xmlPath = installationPath + "\\ConfigXml\\configXml.xml";
-            createAndUpdateXmlForPathSettings(xmlPath);
-
+            try
+            {
+                //getting installation directory to save xml
+                //string installationPath = AppDomain.CurrentDomain.BaseDirectory;
+                //string installationPath = @"C:\Program Files\Notepad++\plugins\PmlVersionControl";
+                string installationPath = @"X:\PDMSUSER\sduranama\Testing VersionCOntrol";
+                Directory.CreateDirectory(installationPath + "\\ConfigXml");
+                string xmlPath = installationPath + "\\ConfigXml\\configXml.xml";
+                createAndUpdateXmlForPathSettings(xmlPath);
+            }
+            catch(Exception errr)
+            {
+                MessageBox.Show(errr.ToString());
+            }
             //Now need to generate an XML there if not already there 
 
             //prompt to insert directories and save those to xml
@@ -41,7 +48,7 @@ namespace PmlVersionControl
         /// If xml is newly created then promps to get path values
         /// if all path values are not found then also prompts to get that
         /// </summary>
-        public void createAndUpdateXmlForPathSettings(string xmlPath)
+        public static void createAndUpdateXmlForPathSettings(string xmlPath)
         {
             XmlDocument doc = new XmlDocument();
             
@@ -209,7 +216,7 @@ namespace PmlVersionControl
 
         }
                
-        public void writeTagXML(XmlElement elem, XmlDocument doc, string savePath, string TagName, string TagValue )
+        public static void writeTagXML(XmlElement elem, XmlDocument doc, string savePath, string TagName, string TagValue )
         {
             //Create xml document for writing
             if (!File.Exists(savePath))
@@ -254,8 +261,16 @@ namespace PmlVersionControl
         private void btnCommit_Click(object sender, EventArgs e)
         {
             //Take the commit message
-            string commitMessage = richTxtCommit.Text;
-            if (!(commitMessage == ""))
+            string[] commitMessage = richTxtCommit.Lines;
+            int i = 0;
+            foreach(string s in commitMessage)
+            {
+                commitMessage[i] ="--Commit Message:$ "+ commitMessage[i];
+
+                i++;
+            }
+
+            if (!(commitMessage.Length == 0))
             {
                 NotepadPPGateway notepadPPGateway = new NotepadPPGateway();
 
@@ -299,8 +314,16 @@ namespace PmlVersionControl
                         string strucDirectory = (path.Replace(codeDirectory,"")).Replace(currentFileName,"");
                         string newDirectory = finalDirectoryForEncryption + strucDirectory;
                         Directory.CreateDirectory(newDirectory);
-                        File.Copy(path, newDirectory+currentFileName);
-
+                        if(File.Exists(newDirectory + currentFileName))
+                        {
+                            File.Delete(newDirectory + currentFileName);
+                            File.Copy(path, newDirectory + currentFileName);
+                        }
+                        else
+                        {
+                            File.Copy(path, newDirectory + currentFileName);
+                        }
+                     
                     }
                 }
 
@@ -321,14 +344,21 @@ namespace PmlVersionControl
             }
         }
 
-        static void AddCommitMessageToFileTop(string commitMessage, string filePathToModify)
+        static void AddCommitMessageToFileTop(string[] commitMessage, string filePathToModify)
         {
-            commitMessage = "--"+DateTime.Now+Environment.UserName +"!!! commit message:"+ commitMessage;
+            //commitMessage = "--"+DateTime.Now+Environment.UserName +"!!! commit message:"+ commitMessage;
 
             // Read a text file line by line.  
             string[] lines = File.ReadAllLines(filePathToModify);
             List<string> linesList = new List<string>();
-            linesList.Add(commitMessage);
+            linesList.Add("--Committed by:$ " + Environment.UserName);
+            linesList.Add("--Commit Time & Date:$ " + DateTime.Now);
+
+            foreach(string ln in commitMessage)
+            {
+                linesList.Add(ln);
+            }
+            
             foreach (string ln in lines)
             {
                 linesList.Add(ln);

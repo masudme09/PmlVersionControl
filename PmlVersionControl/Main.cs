@@ -51,16 +51,30 @@ namespace Kbg.NppPluginNET
 
             PluginBase.SetCommand(0, "CommitPMLCode", pmlCommit, new ShortcutKey(false, false, false, Keys.None));
             PluginBase.SetCommand(1, "Available Versions", availableVersions); idMyDlg = 1;
+            //PluginBase.SetCommand(2, "Test", availableVersions); idMyDlg = 1;
         }
 
         private static void availableVersions()
         {
-            throw new NotImplementedException();
+            try
+            {
+                string installationPath = @"E:\Developments\Notepad++ Plugin";
+                Directory.CreateDirectory(installationPath + "\\ConfigXml");
+                string xmlPath = installationPath + "\\ConfigXml\\configXml.xml";
+                CommitWindow.createAndUpdateXmlForPathSettings(xmlPath);
+           
+            VersionShowWindow versionWpf = new VersionShowWindow();
+            versionWpf.Show();
+            }
+            catch (Exception errr)
+            {
+                MessageBox.Show(errr.ToString());
+            }
         }
 
         private static void pmlCommit()
         {
-
+           
 
             //Open Commit form to enter commit message
             CommitWindow commitFrm = new CommitWindow();
