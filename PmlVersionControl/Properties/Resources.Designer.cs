@@ -83,9 +83,69 @@ namespace PmlVersionControl.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap commit_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("commit_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap error {
             get {
                 object obj = ResourceManager.GetObject("error", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Industry_4_zone_logo_04 {
+            get {
+                object obj = ResourceManager.GetObject("Industry-4-zone-logo-04", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap revertImage {
+            get {
+                object obj = ResourceManager.GetObject("revertImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rsz_1industry_4_zone_logo_04 {
+            get {
+                object obj = ResourceManager.GetObject("rsz_1industry-4-zone-logo-04", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rsz_2industry_4_zone_logo_04 {
+            get {
+                object obj = ResourceManager.GetObject("rsz_2industry-4-zone-logo-04", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap rsz_industry_4_zone_logo_04 {
+            get {
+                object obj = ResourceManager.GetObject("rsz_industry-4-zone-logo-04", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,6 +166,16 @@ namespace PmlVersionControl.Properties {
         internal static System.Drawing.Bitmap star_bmp {
             get {
                 object obj = ResourceManager.GetObject("star_bmp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap versions_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("versions_16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

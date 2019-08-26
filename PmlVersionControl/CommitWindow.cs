@@ -14,7 +14,9 @@ namespace PmlVersionControl
         public static string rootDirectory ="";
         public static string codeDirectory = "";
         public static string finalDirectoryForEncryption = "";
-             
+        public static string installationPath = @"C:\Users\Public\Documents\PmlVersionControlPlugin";
+        public static string currentFileDirectory="";
+        //public static string installationPath = @"X:\PDMSUSER\sduranama\My Document";
         public CommitWindow()
         {
             InitializeComponent();
@@ -25,7 +27,8 @@ namespace PmlVersionControl
                 //getting installation directory to save xml
                 //string installationPath = AppDomain.CurrentDomain.BaseDirectory;
                 //string installationPath = @"C:\Program Files\Notepad++\plugins\PmlVersionControl";
-                string installationPath = @"X:\PDMSUSER\sduranama\Testing VersionCOntrol";
+
+                
                 Directory.CreateDirectory(installationPath + "\\ConfigXml");
                 string xmlPath = installationPath + "\\ConfigXml\\configXml.xml";
                 createAndUpdateXmlForPathSettings(xmlPath);
@@ -34,11 +37,21 @@ namespace PmlVersionControl
             {
                 MessageBox.Show(errr.ToString());
             }
-            //Now need to generate an XML there if not already there 
+            
+            //if pushdirectory is not null then loop through each file
+            //Delete if any filename contains temp
+            if(!(pushDirectory==""))
+            {
+                string[] files = Directory.GetFiles(pushDirectory);
+                foreach(string file in files)
+                {
+                    if(file.Contains("temp"))
+                    {
+                        File.Delete(file);
+                    }
+                }
 
-            //prompt to insert directories and save those to xml
-
-            //If already there then read that xml file and load paths
+            }
 
         }
 
@@ -259,7 +272,7 @@ namespace PmlVersionControl
         }
             
         private void btnCommit_Click(object sender, EventArgs e)
-        {
+        {          
             //Take the commit message
             string[] commitMessage = richTxtCommit.Lines;
             int i = 0;
@@ -276,6 +289,15 @@ namespace PmlVersionControl
 
                 //Save the file to original location
                 string path = notepadPPGateway.GetCurrentFilePath();
+
+                //check the file is committed file or not.
+                if(path.Contains("temp"))
+                {
+                    MessageBox.Show("This file can not be committed. Revert to this version before committing.");
+                    return;
+                }
+
+                currentFileDirectory = path;//for later use
                 notepadPPGateway.SaveCurrentFile();
 
                 //Save the file to another directory
@@ -284,6 +306,7 @@ namespace PmlVersionControl
                 DateTime now = System.DateTime.Now;
                 string pushedFileName = now.ToString() + "_" + userName + "_" + currentFileName;
                 pushedFileName = pushedFileName.Replace(":", "_");
+                pushedFileName = pushedFileName.Replace(@"\", "_");
                 //Create directory for the original file
                 if (Directory.Exists(pushDirectory) && !(pushDirectory=="") && Directory.Exists(rootDirectory) && !(rootDirectory=="")
                     && Directory.Exists(codeDirectory) && !(codeDirectory == "") && Directory.Exists(finalDirectoryForEncryption) && !(finalDirectoryForEncryption == ""))
@@ -353,6 +376,7 @@ namespace PmlVersionControl
             List<string> linesList = new List<string>();
             linesList.Add("--Committed by:$ " + Environment.UserName);
             linesList.Add("--Commit Time & Date:$ " + DateTime.Now);
+            linesList.Add("--Commit Original Directory: " + currentFileDirectory);
 
             foreach(string ln in commitMessage)
             {

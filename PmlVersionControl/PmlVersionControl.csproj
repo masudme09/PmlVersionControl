@@ -59,6 +59,26 @@
   <PropertyGroup>
     <ApplicationIcon>Resources\industry_4_zone_logo_04_rSW_icon-1.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
@@ -160,6 +180,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BJITLarge.ico" />
+    <None Include="Resources\revertImage.png" />
+    <None Include="Resources\versions 16x16.png" />
+    <None Include="Resources\versions-1-581932.png" />
+    <Resource Include="Resources\rsz_2industry-4-zone-logo-04.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <None Include="Resources\rsz_1industry-4-zone-logo-04.png" />
+    <None Include="Resources\rsz_industry-4-zone-logo-04.png" />
+    <None Include="Resources\Industry-4-zone-logo-04.png" />
+    <None Include="Resources\commit.png" />
+    <None Include="Resources\commit 16x16.png" />
     <Content Include="Resources\industry_4_zone_logo_04_rSW_icon-1.ico" />
     <Content Include="Resources\Industry-4-zone-logo-04 %281%29.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

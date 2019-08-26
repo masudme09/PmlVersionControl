@@ -8,6 +8,41 @@
       Title="" Width="600" Height="492" MinWidth="600" MinHeight="500" WindowStartupLocation="CenterScreen" >
     <Window.Resources>
 
+        <Style x:Key="LabelStyle1" TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ValidationStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0" To="Valid">
+                                            <Storyboard>
+                                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(SolidColorBrush.Color)" Storyboard.TargetName="contentPresenter">
+                                                    <EasingColorKeyFrame KeyTime="0" Value="#FF76ACD1"/>
+                                                </ColorAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                    </VisualStateGroup.Transitions>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" OpacityMask="Black"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
     <Window.Background>
         <SolidColorBrush Color="#FF41B252"/>
@@ -25,8 +60,16 @@
             <RowDefinition Height=".15*"/>
             <RowDefinition Height=".1*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Available Versions" Foreground="#FF4B4B4A" 
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="Available Versions" Foreground="#FF4B4B4A" 
                Margin="0,0,0,0" FontSize="22px" FontWeight="Bold" Name="lblAvailableVersion" Grid.ColumnSpan="2"/>
+            <Image Grid.Column="1" Source="pack://siteoforigin:,,,/Resources/rsz_2industry-4-zone-logo-04.png" HorizontalAlignment="Right" Width="35"/>
+        </Grid>
+       
 
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -69,7 +112,7 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-               
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"  />
                 <RowDefinition Height="1*"/>
@@ -84,38 +127,153 @@
             </Grid.RowDefinitions>
             <!--File Names Grid-->
             <Border x:Name="fileBorder_1" Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity=".05" Background="#FF41B252"/>
-            <Label  Grid.Row="0" Grid.Column="0"  Name="lblfileName_1"  HorizontalAlignment="Center" MouseDown="LblfileName_1_MouseDown"/>
+            <Label  Grid.Row="0" Grid.Column="0"  Name="lblfileName_1"  HorizontalAlignment="Center" 
+                    MouseDown="LblfileName_1_MouseDown" Content="">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
             <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <Label Grid.Row="1" Grid.Column="0"  Name="lblfileName_2" HorizontalAlignment="Center"/>
+            <Label Grid.Row="1" Grid.Column="0"  Name="lblfileName_2" HorizontalAlignment="Center" Content=""
+                   MouseDown="LblfileName_1_MouseDown" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
             <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
-            <Label Grid.Row="2" Grid.Column="0"  Name="lblfileName_3" HorizontalAlignment="Center"/>
+            <Label Grid.Row="2" Grid.Column="0"  Name="lblfileName_3" HorizontalAlignment="Center" Content=""
+                   MouseDown="LblfileName_1_MouseDown" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
             <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <Label Grid.Row="3" Grid.Column="0"  Name="lblfileName_4" HorizontalAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="0"  Name="lblfileName_4" HorizontalAlignment="Center" Content=""
+                   MouseDown="LblfileName_1_MouseDown" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
             <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
-            <Label Grid.Row="4" Grid.Column="0"  Name="lblfileName_5" HorizontalAlignment="Center"/>
+            <Label Grid.Row="4" Grid.Column="0"  Name="lblfileName_5" HorizontalAlignment="Center" Content=""
+                   MouseDown="LblfileName_1_MouseDown" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
 
             <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <Label Grid.Row="5" Grid.Column="0"  Name="lblfileName_6" HorizontalAlignment="Center"/>
+            <Label Grid.Row="5" Grid.Column="0"  Name="lblfileName_6" HorizontalAlignment="Center" Content="">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
 
             <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
-            <Label Grid.Row="6" Grid.Column="0"  Name="lblfileName_7" HorizontalAlignment="Center"/>
+            <Label Grid.Row="6" Grid.Column="0"  Name="lblfileName_7" HorizontalAlignment="Center" Content=""
+                   MouseDown="LblfileName_1_MouseDown" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
 
 
             <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <Label Grid.Row="7" Grid.Column="0"  Name="lblfileName_8" HorizontalAlignment="Center"/>
+            <Label Grid.Row="7" Grid.Column="0"  Name="lblfileName_8" HorizontalAlignment="Center" Content=""
+                   MouseDown="LblfileName_1_MouseDown" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
 
 
             <Border Grid.Row="8" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
-            <Label Grid.Row="8" Grid.Column="0"  Name="lblfileName_9" HorizontalAlignment="Center"/>
+            <Label Grid.Row="8" Grid.Column="0"  Name="lblfileName_9" HorizontalAlignment="Center" Content=""
+                   MouseDown="LblfileName_1_MouseDown" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
 
             <Border Grid.Row="9" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <Label Grid.Row="9" Grid.Column="0"  Name="lblfileName_10" HorizontalAlignment="Center"/>
+            <Label Grid.Row="9" Grid.Column="0"  Name="lblfileName_10" Content=""  HorizontalAlignment="Center"
+                   MouseDown="LblfileName_1_MouseDown">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
 
-            <Border Grid.Row="10" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <Label Grid.Row="10" Grid.Column="0"  Name="lblfileName_11" HorizontalAlignment="Center"/>
-
-
-
+            
 
 
             <!--Modified Date Grid-->
@@ -156,10 +314,7 @@
             <Border Grid.Row="9" Grid.Column="1" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <Label Grid.Row="9" Grid.Column="1"  Name="lblfileDate_10" HorizontalAlignment="Center"/>
 
-            <Border Grid.Row="10" Grid.Column="1"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <Label Grid.Row="10" Grid.Column="1"  Name="lblfileDate_11" HorizontalAlignment="Center"/>
-
-
+         
 
             <!--Modified By Grid-->
             <Border  Grid.Row="0" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05" Background="#FF41B252"/>
@@ -192,10 +347,7 @@
             <Border  Grid.Row="9" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <Label Grid.Row="9" Grid.Column="2"  Name="lblModifiedBy_10" HorizontalAlignment="Center"/>
 
-            <Border Grid.Row="10" Grid.Column="2"  BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <Label Grid.Row="10" Grid.Column="2"  Name="lblModifiedBy_11" HorizontalAlignment="Center"/>
-
-
+           
 
             <!--Commit Message Grid-->
             <Border Grid.Row="0" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
@@ -208,7 +360,7 @@
 
             <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <RichTextBox Grid.Row="2" Grid.Column="3"  Name="lblCommitMessage_3"
-                         BorderBrush="#00000000" Background="#FFE2EEE8" IsReadOnly="True"/>
+                         BorderBrush="#00000000" Background="#FFE4F6EC" IsReadOnly="True"/>
 
             <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <RichTextBox Grid.Row="3" Grid.Column="3"  Name="lblCommitMessage_4"
@@ -216,7 +368,7 @@
 
             <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <RichTextBox Grid.Row="4" Grid.Column="3"  Name="lblCommitMessage_5"
-                         BorderBrush="#00000000" Background="#FFE2EEE8" IsReadOnly="True"/>
+                         BorderBrush="#00000000" Background="#FFE4F6EC" IsReadOnly="True"/>
 
             <Border Grid.Row="5" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <RichTextBox Grid.Row="5" Grid.Column="3"  Name="lblCommitMessage_6"
@@ -224,7 +376,7 @@
 
             <Border Grid.Row="6" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <RichTextBox Grid.Row="6" Grid.Column="3"  Name="lblCommitMessage_7"
-                         BorderBrush="#00000000" Background="#FFE2EEE8" IsReadOnly="True"/>
+                         BorderBrush="#00000000" Background="#FFE4F6EC" IsReadOnly="True"/>
 
             <Border Grid.Row="7" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <RichTextBox Grid.Row="7" Grid.Column="3"  Name="lblCommitMessage_8"
@@ -232,16 +384,13 @@
 
             <Border Grid.Row="8" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <RichTextBox Grid.Row="8" Grid.Column="3"  Name="lblCommitMessage_9"
-                         BorderBrush="#00000000" Background="#FFE2EEE8" IsReadOnly="True"/>
+                         BorderBrush="#00000000" Background="#FFE4F6EC" IsReadOnly="True"/>
 
             <Border Grid.Row="9" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
             <RichTextBox Grid.Row="9" Grid.Column="3"  Name="lblCommitMessage_10"  HorizontalAlignment="Center"
-                         BorderBrush="#FFF0F0F0" Background="#FFF0F0F0"/>
+                         BorderBrush="#FFF0F0F0" Background="#FFEDFAF4"/>
 
-            <Border Grid.Row="10" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Opacity="0.05"/>
-            <RichTextBox Grid.Row="10" Grid.Column="3"  Name="lblCommitMessage_11"
-                         BorderBrush="#00000000" Background="#FFEDFAF4" IsReadOnly="True"/>
-
+           
         </Grid>
 
         <Grid Grid.Row="4" Grid.ColumnSpan="2">
@@ -251,9 +400,9 @@
             </Grid.ColumnDefinitions>
 
             <Button x:Name="btnRight" Content="Next" Grid.Column="1" Background="#FFCFE1F0"
-                    FontWeight="Bold" Foreground="#FF484A4C" Margin="10,0,0,0" FontSize="20px"/>
+                    FontWeight="Bold" Foreground="#FF484A4C" Margin="10,0,0,0" FontSize="20px" Click="BtnRight_Click"/>
             <Button x:Name="btnLeft" Grid.Column="0" Content="Previous" Background="#FFCFE1F0"
-                    FontWeight="Bold" Foreground="#FF484A4C" Margin="0,0,10,0" FontSize="20px"/>
+                    FontWeight="Bold" Foreground="#FF484A4C" Margin="0,0,10,0" FontSize="20px" Click="BtnLeft_Click"/>
 
         </Grid>
         <Label Grid.Row="5" Grid.Column="1" Content="Powered By BJIT" FontSize="15px" FontStyle="Italic"
