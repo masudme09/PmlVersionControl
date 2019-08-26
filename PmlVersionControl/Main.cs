@@ -93,7 +93,11 @@ namespace Kbg.NppPluginNET
             {
                 MessageBox.Show("This file could not be reverted");
             }
-            else
+            else if(path==savePath)
+            {
+                MessageBox.Show("This is the current version");
+
+            }else
             {
                 notepadPPGateway.SaveCurrentFile(savePath);
                 MessageBox.Show("Reverted successfully!");
