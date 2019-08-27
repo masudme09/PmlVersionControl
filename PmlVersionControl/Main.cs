@@ -14,7 +14,7 @@ using PmlVersionControl;
 /// Concept of this development is..having commit and versions button
 /// Commit button will save current works to a specified directory with committed message into it and time stamp
 /// versions button provide a window to show all versions of this file previously committed
-/// User can select any version to open
+/// User can select any version to open and revert to it
 /// </summary>
 namespace Kbg.NppPluginNET
 {
@@ -63,6 +63,7 @@ namespace Kbg.NppPluginNET
             string codeDirectory = CommitWindow.codeDirectory;
 
             NotepadPPGateway notepadPPGateway = new NotepadPPGateway();
+            List<string> linesList = new List<string>();//all the lines except commit lines
 
             //Save the file to original location
             string path = notepadPPGateway.GetCurrentFilePath();
@@ -70,13 +71,26 @@ namespace Kbg.NppPluginNET
             savePath = savePath.Replace("temp_", "");
             if(!(CommitWindow.currentFileDirectory=="") && Path.GetFileName(CommitWindow.currentFileDirectory)==savePath)
             {
+                //Delete the commit messages from the file
+                //read the file and for original path to save
+                string[] lines = File.ReadAllLines(path);
+                
+
+                foreach (string line in lines)
+                {
+                    if (!(line.Contains("--Commit")))
+                    {
+                        linesList.Add(line);
+                    }
+                }
+
+                //Getting save directory
                 savePath = CommitWindow.currentFileDirectory;
             }
             else
             {
                 //read the file and for original path to save
                 string[] lines = File.ReadAllLines(path);
-                List<string> linesList = new List<string>();
 
                 foreach(string line in lines)
                 {
@@ -84,6 +98,14 @@ namespace Kbg.NppPluginNET
                     {
                         savePath = line.Replace("--Commit Original Directory: ", "");
                         break;
+                    }
+                }
+
+                foreach (string line in lines)
+                {
+                    if (!(line.Contains("--Commit")))
+                    {
+                        linesList.Add(line);
                     }
                 }
 
@@ -99,7 +121,13 @@ namespace Kbg.NppPluginNET
 
             }else
             {
-                notepadPPGateway.SaveCurrentFile(savePath);
+                //Save the file without commit message
+                if(File.Exists(savePath))
+                {
+                    File.Delete(savePath);
+                }
+                File.WriteAllLines(savePath, linesList);
+                notepadPPGateway.openFile(savePath);
                 MessageBox.Show("Reverted successfully!");
             }
 
