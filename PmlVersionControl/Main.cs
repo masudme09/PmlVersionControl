@@ -60,77 +60,83 @@ namespace Kbg.NppPluginNET
 
         private static void revertToOldVersion()
         {
-            string codeDirectory = CommitWindow.codeDirectory;
-
-            NotepadPPGateway notepadPPGateway = new NotepadPPGateway();
-            List<string> linesList = new List<string>();//all the lines except commit lines
-
-            //Save the file to original location
-            string path = notepadPPGateway.GetCurrentFilePath();
-            string savePath = path.Split('\\')[path.Split('\\').Length-1];//file name
-            savePath = savePath.Replace("temp_", "");
-            if(!(CommitWindow.currentFileDirectory=="") && Path.GetFileName(CommitWindow.currentFileDirectory)==savePath)
+            try
             {
-                //Delete the commit messages from the file
-                //read the file and for original path to save
-                string[] lines = File.ReadAllLines(path);
-                
+                string codeDirectory = CommitWindow.codeDirectory;
 
-                foreach (string line in lines)
+                NotepadPPGateway notepadPPGateway = new NotepadPPGateway();
+                List<string> linesList = new List<string>();//all the lines except commit lines
+
+                //Save the file to original location
+                string path = notepadPPGateway.GetCurrentFilePath();
+                string savePath = path.Split('\\')[path.Split('\\').Length - 1];//file name
+                savePath = savePath.Replace("temp_", "");
+                if (!(CommitWindow.currentFileDirectory == "") && Path.GetFileName(CommitWindow.currentFileDirectory) == savePath)
                 {
-                    if (!(line.Contains("--Commit")))
+                    //Delete the commit messages from the file
+                    //read the file and for original path to save
+                    string[] lines = File.ReadAllLines(path);
+
+
+                    foreach (string line in lines)
                     {
-                        linesList.Add(line);
+                        if (!(line.Contains("--Commit")))
+                        {
+                            linesList.Add(line);
+                        }
                     }
+
+                    //Getting save directory
+                    savePath = CommitWindow.currentFileDirectory;
                 }
-
-                //Getting save directory
-                savePath = CommitWindow.currentFileDirectory;
-            }
-            else
-            {
-                //read the file and for original path to save
-                string[] lines = File.ReadAllLines(path);
-
-                foreach(string line in lines)
+                else
                 {
-                    if(line.Contains("--Commit Original Directory: "))
+                    //read the file and for original path to save
+                    string[] lines = File.ReadAllLines(path);
+
+                    foreach (string line in lines)
                     {
-                        savePath = line.Replace("--Commit Original Directory: ", "");
-                        break;
+                        if (line.Contains("--Commit Original Directory: "))
+                        {
+                            savePath = line.Replace("--Commit Original Directory: ", "");
+                            break;
+                        }
                     }
-                }
 
-                foreach (string line in lines)
-                {
-                    if (!(line.Contains("--Commit")))
+                    foreach (string line in lines)
                     {
-                        linesList.Add(line);
+                        if (!(line.Contains("--Commit")))
+                        {
+                            linesList.Add(line);
+                        }
                     }
+
                 }
 
-            }
-
-            if(!File.Exists(savePath))
-            {
-                MessageBox.Show("This file could not be reverted");
-            }
-            else if(path==savePath)
-            {
-                MessageBox.Show("This is the current version");
-
-            }else
-            {
-                //Save the file without commit message
-                if(File.Exists(savePath))
+                if (!File.Exists(savePath))
                 {
-                    File.Delete(savePath);
+                    MessageBox.Show("This file could not be reverted");
                 }
-                File.WriteAllLines(savePath, linesList);
-                notepadPPGateway.openFile(savePath);
-                MessageBox.Show("Reverted successfully!");
-            }
+                else if (path == savePath)
+                {
+                    MessageBox.Show("This is the current version");
 
+                }
+                else
+                {
+                    //Save the file without commit message
+                    if (File.Exists(savePath))
+                    {
+                        File.Delete(savePath);
+                    }
+                    File.WriteAllLines(savePath, linesList);
+                    notepadPPGateway.openFile(savePath);
+                    MessageBox.Show("Reverted successfully!");
+                }
+            }catch(Exception err)
+            {
+                MessageBox.Show(err.ToString());
+            }
 
         }
 
