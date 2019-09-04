@@ -14,13 +14,22 @@ namespace PmlVersionControl
         public static string rootDirectory ="";
         public static string codeDirectory = "";
         public static string finalDirectoryForEncryption = "";
-        //public static string installationPath = @"C:\Users\Public\Documents\PmlVersionControlPlugin";
+        public static string installationPath;// = @"C:\Users\Public\Documents\PmlVersionControlPlugin";
         public static string currentFileDirectory="";
-        public static string installationPath = @"X:\PDMSUSER\sduranama\My Document";
+        //public static string installationPath = @"X:\PDMSUSER\sduranama\My Document";
         public CommitWindow()
         {
             InitializeComponent();
             this.CenterToParent();
+
+            if(Directory.Exists(@"X:\PDMSUSER\sduranama\My Document"))
+            {
+                installationPath = @"X:\PDMSUSER\sduranama\My Document";
+            }
+            else
+            {
+                installationPath = @"C:\Users\Public\Documents\PmlVersionControlPlugin";
+            }
 
             try
             {
