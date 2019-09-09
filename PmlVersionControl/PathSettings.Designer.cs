@@ -32,6 +32,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblSettings = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
+            this.btnBrowse = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -39,7 +40,7 @@
             this.textBox1.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(12, 35);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(335, 22);
+            this.textBox1.Size = new System.Drawing.Size(272, 22);
             this.textBox1.TabIndex = 0;
             // 
             // lblSettings
@@ -57,7 +58,7 @@
             // btnOK
             // 
             this.btnOK.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Location = new System.Drawing.Point(272, 79);
+            this.btnOK.Location = new System.Drawing.Point(290, 85);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
@@ -65,12 +66,24 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
+            // btnBrowse
+            // 
+            this.btnBrowse.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBrowse.Location = new System.Drawing.Point(290, 35);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowse.TabIndex = 3;
+            this.btnBrowse.Text = "Browse";
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.BtnBrowse_Click);
+            // 
             // PathSettings
             // 
             this.AccessibleName = "";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(373, 133);
+            this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblSettings);
             this.Controls.Add(this.textBox1);
@@ -91,5 +104,6 @@
         public System.Windows.Forms.TextBox textBox1;
         public System.Windows.Forms.Label lblSettings;
         public System.Windows.Forms.Button btnOK;
+        public System.Windows.Forms.Button btnBrowse;
     }
 }

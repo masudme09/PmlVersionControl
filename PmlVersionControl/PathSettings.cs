@@ -45,7 +45,10 @@ namespace PmlVersionControl
                     {
                         CommitWindow.finalDirectoryForEncryption = textBox1.Text;
                     }
-
+                    else if (lblSettings.Text.Contains("Emergency"))
+                    {
+                        CommitWindow.emergencyDirectory = textBox1.Text;
+                    }
                     Close();
                     Dispose();
                 }else
@@ -68,6 +71,29 @@ namespace PmlVersionControl
             else
             {
                 return false;
+            }
+        }
+
+        private void BtnBrowse_Click(object sender, EventArgs e)
+        {
+            string selectedFolder = BrowseFolder();
+            textBox1.Text = selectedFolder;
+        }
+
+        public string BrowseFolder()
+        {
+            FolderBrowserDialog openFolderDialog1 = new FolderBrowserDialog();
+            DialogResult drResult= openFolderDialog1.ShowDialog();
+
+            if(drResult==DialogResult.OK)
+            {
+                return openFolderDialog1.SelectedPath;
+            }
+
+            else
+            {
+                MessageBox.Show("No Folder choosen");
+                return "";
             }
         }
     }

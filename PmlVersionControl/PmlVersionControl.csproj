@@ -104,6 +104,7 @@
     <Compile Include="CommitWindow.Designer.cs">
       <DependentUpon>CommitWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Language.cs" />
     <Compile Include="PathSettings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +141,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="PluginInfrastructure\UnmanagedExports.cs" />
+    <Compile Include="Utility.cs" />
+    <Compile Include="Utility.Extension.cs" />
     <Compile Include="VersionShowWindow.xaml.cs">
       <DependentUpon>VersionShowWindow.xaml</DependentUpon>
     </Compile>

@@ -14,33 +14,46 @@ namespace PmlVersionControl
         public static string rootDirectory ="";
         public static string codeDirectory = "";
         public static string finalDirectoryForEncryption = "";
-        public static string installationPath;// = @"C:\Users\Public\Documents\PmlVersionControlPlugin";
+        //public static string installationPath;// = @"C:\Users\Public\Documents\PmlVersionControlPlugin";
         public static string currentFileDirectory="";
+        public static string emergencyDirectory = "";
         //public static string installationPath = @"X:\PDMSUSER\sduranama\My Document";
         public CommitWindow()
         {
             InitializeComponent();
             this.CenterToParent();
+            //Adding tooltip on option button
+            ToolTip toolTip1 = new ToolTip();
+            // Set up the delays for the ToolTip.
+            toolTip1.AutoPopDelay = 5000;
+            toolTip1.InitialDelay = 1000;
+            toolTip1.ReshowDelay = 500;
+            // Force the ToolTip text to be displayed whether or not the form is active.
+            toolTip1.ShowAlways = true;
 
-            if(Directory.Exists(@"X:\PDMSUSER\sduranama\My Document"))
-            {
-                installationPath = @"X:\PDMSUSER\sduranama\My Document";
-            }
-            else
-            {
-                installationPath = @"C:\Users\Public\Documents\PmlVersionControlPlugin";
-            }
+            // Set up the ToolTip text for the Button and Checkbox.
+            toolTip1.SetToolTip(this.chkFinal, "Available to production tommorrow");
+            toolTip1.SetToolTip(this.chkEmergency, "Available to production now as emergency");
+            toolTip1.SetToolTip(this.btnCommit, "Click this button to archive this document's copy with commit message");
+            toolTip1.SetToolTip(this.richTxtCommit, "Write your changes or new implementation details");
+            toolTip1.SetToolTip(this.label1, "Write your changes or new implementation details");
+
+            
 
             try
             {
-                //getting installation directory to save xml
-                //string installationPath = AppDomain.CurrentDomain.BaseDirectory;
-                //string installationPath = @"C:\Program Files\Notepad++\plugins\PmlVersionControl";
+                               
+                int sucessfull= Utility.initializeDirectoryFromConfigXml();
 
-                
-                Directory.CreateDirectory(installationPath + "\\ConfigXml");
-                string xmlPath = installationPath + "\\ConfigXml\\configXml.xml";
-                createAndUpdateXmlForPathSettings(xmlPath);
+                if(sucessfull==5) //All paths set sucessfully
+                {
+                    Utility.setPathsToCommitWindow();
+                }else
+                {
+                    Close();
+                    return;
+                }
+                //createAndUpdateXmlForPathSettings(xmlPath);
             }
             catch(Exception errr)
             {
@@ -64,230 +77,27 @@ namespace PmlVersionControl
 
         }
 
-        /// <summary>
-        /// This method will create xml to installation directory
-        /// Read the xml if already there to get paths
-        /// If xml is newly created then promps to get path values
-        /// if all path values are not found then also prompts to get that
-        /// </summary>
-        public static void createAndUpdateXmlForPathSettings(string xmlPath)
-        {
-            XmlDocument doc = new XmlDocument();
-            
-
-            if (File.Exists(xmlPath))
-            {
-                doc.Load(xmlPath);
-                XmlNode rootNode = doc.FirstChild.NextSibling;
-
-                XmlNodeList pushDirectory = doc.GetElementsByTagName("pushDirectory");
-                foreach(XmlNode nd in pushDirectory)
-                {
-                    CommitWindow.pushDirectory = nd.InnerText;
-                }
-
-                if(CommitWindow.pushDirectory=="")
-                {
-                    PathSettings pushPath = new PathSettings();
-                    pushPath.Text = "Set Commit Directory";
-                    pushPath.lblSettings.Text = "Set Commit Directory";
-                    pushPath.ShowDialog();
-                    if (!(CommitWindow.pushDirectory == ""))
-                    {
-                        writeTagXML(doc.DocumentElement, doc, xmlPath, "pushDirectory", CommitWindow.pushDirectory);
-                    }
-                }
-
-                XmlNodeList rootDirectory = doc.GetElementsByTagName("rootDirectory");
-                foreach (XmlNode nd in rootDirectory)
-                {
-                    CommitWindow.rootDirectory = nd.InnerText;
-                }
-
-                if (CommitWindow.rootDirectory == "")
-                {
-                    PathSettings rootPath = new PathSettings();
-                    rootPath.Text = "Set Root Directory";
-                    rootPath.lblSettings.Text = "Set Root Directory";
-                    rootPath.ShowDialog();
-                    if (!(CommitWindow.rootDirectory == ""))
-                    {
-                        writeTagXML(doc.DocumentElement, doc, xmlPath, "rootDirectory", CommitWindow.rootDirectory);
-                    }
-                   
-
-                }
-
-
-
-                XmlNodeList codeDirectory = doc.GetElementsByTagName("codeDirectory");
-                foreach (XmlNode nd in codeDirectory)
-                {
-                    CommitWindow.codeDirectory = nd.InnerText;
-                }
-
-
-                if (CommitWindow.codeDirectory == "")
-                {
-                    PathSettings codePath = new PathSettings();
-                    codePath.Text = "Set Code Directory";
-                    codePath.lblSettings.Text = "Set Code Directory";
-                    codePath.ShowDialog();
-
-                    if (!(CommitWindow.codeDirectory == "")) //user may close the enter directory form..and then it will return empty directory
-                    {
-                        writeTagXML(doc.DocumentElement, doc, xmlPath, "codeDirectory", CommitWindow.codeDirectory);
-                    }
-                   
-                   
-                }
-
-                XmlNodeList finalDirectoryForEncryption = doc.GetElementsByTagName("finalDirectoryForEncryption");
-                foreach (XmlNode nd in finalDirectoryForEncryption)
-                {
-                    CommitWindow.finalDirectoryForEncryption = nd.InnerText;
-                }
-
-                if (CommitWindow.finalDirectoryForEncryption == "")
-                {
-                    PathSettings Encryption = new PathSettings();
-                    Encryption.Text = "Set Encryption Directory";
-                    Encryption.lblSettings.Text = "Set Encryption Directory";
-                    Encryption.ShowDialog();
-
-                    if (!(CommitWindow.finalDirectoryForEncryption == "")) //user may close the enter directory form..and then it will return empty directory
-                    {
-                        writeTagXML(doc.DocumentElement, doc, xmlPath, "finalDirectoryForEncryption", CommitWindow.finalDirectoryForEncryption);
-                    }
-                   
-                }
-
-            }
-            else
-            {
-                //(1) the xml declaration is recommended, but not mandatory
-                XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
-                XmlElement root = doc.DocumentElement;
-                doc.InsertBefore(xmlDeclaration, root);
-                XmlElement rootNode = doc.CreateElement(string.Empty, "root", string.Empty);
-                doc.AppendChild(rootNode);
-                //doc.Save(xmlPath);
-
-                if (CommitWindow.pushDirectory == "")
-                {
-                    PathSettings pushPath = new PathSettings();
-                    pushPath.Text = "Set Commit Directory";
-                    pushPath.lblSettings.Text = "Set Commit Directory";
-                    pushPath.ShowDialog();
-                    if (!(CommitWindow.pushDirectory == "")) //user may close the enter directory form..and then it will return empty directory
-                    {
-                        writeTagXML(rootNode, doc, xmlPath, "pushDirectory", CommitWindow.pushDirectory);
-                    }
-                   
-
-                }
-
-                if (CommitWindow.rootDirectory == "")
-                {
-                    PathSettings rootPath = new PathSettings();
-                    rootPath.Text = "Set Root Directory";
-                    rootPath.lblSettings.Text = "Set Root Directory";
-                    rootPath.ShowDialog();
-                    if (!(CommitWindow.rootDirectory == "")) //user may close the enter directory form..and then it will return empty directory
-                    {
-                        writeTagXML(rootNode, doc, xmlPath, "rootDirectory", CommitWindow.rootDirectory);
-
-                    }
-
-
-                }
-
-                if (CommitWindow.codeDirectory == "")
-                {
-                    PathSettings codePath = new PathSettings();
-                    codePath.Text = "Set Code Directory";
-                    codePath.lblSettings.Text = "Set Code Directory";
-                    codePath.ShowDialog();
-
-                    if (!(CommitWindow.codeDirectory == "")) //user may close the enter directory form..and then it will return empty directory
-                    {
-                        writeTagXML(rootNode, doc, xmlPath, "codeDirectory", CommitWindow.codeDirectory);
-
-                    }
-                   
-
-                }
-
-                if (CommitWindow.finalDirectoryForEncryption == "")
-                {
-                    PathSettings Encryption = new PathSettings();
-                    Encryption.Text = "Set Encryption Directory";
-                    Encryption.lblSettings.Text = "Set Encryption Directory";
-                    Encryption.ShowDialog();
-
-                    if (!(CommitWindow.finalDirectoryForEncryption == "")) //user may close the enter directory form..and then it will return empty directory
-                    {
-                        writeTagXML(rootNode, doc, xmlPath, "finalDirectoryForEncryption", CommitWindow.finalDirectoryForEncryption);
-
-                    }
-
-                   
-                }
-
-            }
-
-        }
-               
-        public static void writeTagXML(XmlElement elem, XmlDocument doc, string savePath, string TagName, string TagValue )
-        {
-            //Create xml document for writing
-            if (!File.Exists(savePath))
-            {
-                
-                XmlElement newNode =  doc.CreateElement(string.Empty, TagName, string.Empty);
-                XmlText text1 = doc.CreateTextNode(TagValue);
-                newNode.AppendChild(text1);
-                //newNode.Value = TagValue;
-                elem.AppendChild(newNode);
-                //newNode.Value = TagValue;
-                try
-                {
-                    doc.Save(savePath);
-                
-                }
-                catch(Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                }
-            }
-            else
-            {
-                XmlElement newNode = doc.CreateElement(string.Empty, TagName, string.Empty);
-                XmlText text1 = doc.CreateTextNode(TagValue);
-                newNode.AppendChild(text1);
-                //newNode.Value = TagValue;
-                elem.AppendChild(newNode);
-                //newNode.Value = TagValue;
-                try
-                {
-                    doc.Save(savePath);
-
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                }
-            }
-        }
+       
             
         private void btnCommit_Click(object sender, EventArgs e)
-        {          
+        {
+            //Check its pml file or not
+            NotepadPPGateway notepadPPGatewayTemp = new NotepadPPGateway();
+            string pathTemp = notepadPPGatewayTemp.GetCurrentFilePath();
+            string currentFileNameTemp = Path.GetFileName(pathTemp);
+            bool isPml = Utility.isPml(currentFileNameTemp); //True if this is a PML file
+
+            
+
+
             //Take the commit message
             string[] commitMessage = richTxtCommit.Lines;
             int i = 0;
+
+            //Getting commit message
             foreach(string s in commitMessage)
             {
-                commitMessage[i] ="--Commit Message:$ "+ commitMessage[i];
+                commitMessage[i] =Utility.commentSpecifier+"Commit Message:$ "+ commitMessage[i];
 
                 i++;
             }
@@ -335,12 +145,18 @@ namespace PmlVersionControl
                     notepadPPGateway.CloseCurrentFile();
                     notepadPPGateway.openFile(path);
 
-               
+                 //Only pml files can be commited as final
+                if((chkFinal.Checked==true || chkEmergency.Checked==true) && isPml==false)
+                {
+                        MessageBox.Show("Only PML file can be committed as Final");
+                        return;
+                }
+
 
                 if(chkFinal.Checked==true)
                 {
-                    //Check file path contains root directory of PML files
-                    if(path.Contains(rootDirectory))
+                    //Check file path contains code directory of PML files
+                    if(path.Contains(codeDirectory))
                     {
 
                         string strucDirectory = (path.Replace(codeDirectory,"")).Replace(currentFileName,"");
@@ -357,6 +173,63 @@ namespace PmlVersionControl
                         }
                      
                     }
+                    else
+                        {
+                            MessageBox.Show("File should be opened from code directory to make as final");
+                        }
+
+                }
+                else if(chkEmergency.Checked==true)
+                {
+                        //Check file path contains code directory of PML files
+                        if (path.Contains(codeDirectory))
+                        {
+                            //To copy on final directory for encryption
+                            //Same name on same if else conflicts so 'New' added 
+                            string strucDirectoryNew = (path.Replace(codeDirectory, "")).Replace(currentFileName, "");
+                            string newDirectoryNew = finalDirectoryForEncryption + strucDirectoryNew;
+                            if(!Directory.Exists(newDirectoryNew))
+                            {
+                                Directory.CreateDirectory(newDirectoryNew);
+                            }
+                            
+                            if (File.Exists(newDirectoryNew + currentFileName))
+                            {
+                                File.Delete(newDirectoryNew + currentFileName);
+                                File.Copy(path, newDirectoryNew + currentFileName);
+                            }
+                            else
+                            {
+                                File.Copy(path, newDirectoryNew + currentFileName);
+                            }
+
+
+                            //To copy on emergency directory to get immediately 
+                            
+                            newDirectoryNew = emergencyDirectory + strucDirectoryNew;
+
+                            if (!Directory.Exists(newDirectoryNew))
+                            {
+                                Directory.CreateDirectory(newDirectoryNew);
+                            }
+                            if (File.Exists(newDirectoryNew + currentFileName))
+                            {
+                                File.Delete(newDirectoryNew + currentFileName);
+                                File.Copy(path, newDirectoryNew + currentFileName);
+                            }
+                            else
+                            {
+                                File.Copy(path, newDirectoryNew + currentFileName);
+                            }
+
+                            Utility.pmlindexAppend(emergencyDirectory + "\\" + "pml.index", newDirectoryNew + currentFileName);
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("File should be opened from code directory to make as final");
+                        }
+
                 }
 
                 }
