@@ -222,7 +222,7 @@ namespace PmlVersionControl
                                 File.Copy(path, newDirectoryNew + currentFileName);
                             }
 
-                            Utility.pmlindexAppend(emergencyDirectory + "\\" + "pml.index", newDirectoryNew + currentFileName);
+                            //Utility.pmlindexAppend(emergencyDirectory + "\\" + "pml.index", newDirectoryNew + currentFileName);
 
                         }
                         else

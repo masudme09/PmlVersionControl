@@ -29,8 +29,8 @@ namespace PmlVersionControl
         {
             if (Directory.Exists(@"X:\PDMSUSER\sduranama\My Document"))
             {
-                configXMLpath = @"X:\PDMSUSER\sduranama\My Document" + "\\ConfigXml\\configXml.xml";
-                langConfigXMLPath = @"X:\PDMSUSER\sduranama\My Document" + "\\ConfigXml\\langSetupXml.xml";
+                configXMLpath = @"X:\AVEVA\Manage\PMLVersionManagement" + "\\configXml.xml";
+                langConfigXMLPath = @"X:\AVEVA\Manage\PMLVersionManagement" + "\\langSetupXml.xml";
             }
             else
             {
@@ -235,6 +235,20 @@ namespace PmlVersionControl
                     File.Delete(indexPath);
                     File.WriteAllLines(indexPath, contents);
 
+                }
+                else
+                {
+                    var file = File.Create(indexPath);
+                    file.Dispose();
+                    List<string> contents = new List<string>();
+                    //contents = allContents.ToList();
+                   
+                    string addString = filePathToAppend.Replace(Path.GetDirectoryName(indexPath), "");
+                    addString = addString.Replace("\\", "/");
+                    contents.Add(addString);
+
+                    contents.Add("/");
+                    File.WriteAllLines(indexPath, contents);
                 }
             }
 
